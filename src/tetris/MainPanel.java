@@ -14,9 +14,9 @@ public class MainPanel extends JPanel{
 	
 	
 	MainPanel(){
-		playingGrid = new Grid();
+		playingGrid = new Board();
 		leftPanel = new SidePanel(4, 4);
-		rightPanel = new SidePanel(40, 10);
+		rightPanel = new SidePanel(4, 10);
 		topPanel = new SidePanel(20, 1);
 		
 		this.setLayout(new BorderLayout(30, 0));
