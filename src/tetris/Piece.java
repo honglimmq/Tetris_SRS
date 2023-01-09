@@ -35,45 +35,54 @@ public class Piece {
 	// |cos 90 -sin 90|
 	// |sin 90 cos 90|
 	// therefore, x' = -y and y' = x
+	/**
+	 * @pre rotate the current piece
+	 */
 	void rotateLeft() {
-		// Shouldn't need to rotate O tetromino pieces. 
-		if (tetrisPiece != Tetromino.O) {
-			for (int i = 0; i < shape.length; i++) {
-				// x' = -y and y' = x
-				int xValue = -1 * shape[i][1];
-				int yValue = shape[i][0];
+		// Do not rotate for O tetromino piece.
+		if (tetrisPiece == Tetromino.O) {
+			return;
+		}
 
-				shape[i][0] = xValue;
-				shape[i][1] = yValue;
-			}
+		// Rotate the piece around its pivot square
+		for (int i = 0; i < shape.length; i++) {
+			// The matrix transformation equation for rotating left where x' = -y and y' = x
+			int xValue = -1 * shape[i][1];
+			int yValue = shape[i][0];
+
+			shape[i][0] = xValue;
+			shape[i][1] = yValue;
 		}
 	}
 
 	// Return a shape of the given shape rotated clockwise 90 degrees.
 	// x' = y and y' = -x
 	void rotateRight() {
-		// Shouldn't need to rotate O tetromino pieces. 
-		if (tetrisPiece != Tetromino.O) {
-			for (int i = 0; i < shape.length; i++) {
-				// x' = y and y' = -x
-				int xValue = shape[i][1];
-				int yValue = -1 * shape[i][0];
-
-				shape[i][0] = xValue;
-				shape[i][1] = yValue;
-			}
+		// Shouldn't need to rotate O tetromino pieces.
+		if (tetrisPiece == Tetromino.O) {
+			return;
 		}
+		
+		for (int i = 0; i < shape.length; i++) {
+			// The matrix transformation equation for rotating a 2D piece 90 degree where x' = y and y' = -x
+			int xValue = shape[i][1];
+			int yValue = -1 * shape[i][0];
+
+			shape[i][0] = xValue;
+			shape[i][1] = yValue;
+		}
+
 	}
-	
+
 	void printShapeToConsole() {
 		System.out.println("Printing " + tetrisPiece);
-		for(int i = 0; i < shape.length; i++) {
+		for (int i = 0; i < shape.length; i++) {
 			System.out.print("{");
-			for(int k = 0; k < shape[i].length; k++) {
+			for (int k = 0; k < shape[i].length; k++) {
 				System.out.print(shape[i][k]);
-				if(k==shape[i].length - 1) {
+				if (k == shape[i].length - 1) {
 					System.out.println("}");
-				}else {
+				} else {
 					System.out.print(" ,");
 				}
 			}

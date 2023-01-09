@@ -5,6 +5,12 @@ import java.util.Random;
 public class Test {
 
 	public static void main(String[] args) {
+		
+		testingRotations();
+		
+	}
+	
+	public static void testingRotations() {
 		Piece piece = new Piece();
 		
 		System.out.println("rotating left");
@@ -32,9 +38,6 @@ public class Test {
 		piece.rotateRight();
 		piece.printShapeToConsole();
 		piece.rotateRight();
-		
 	}
-	
-	
 	
 }
