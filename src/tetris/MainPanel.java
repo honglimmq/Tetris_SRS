@@ -14,7 +14,7 @@ public class MainPanel extends JPanel{
 	
 	
 	MainPanel(){
-		playingGrid = new Board();
+		playingGrid = new TetrisBoard();
 		leftPanel = new SidePanel(4, 4);
 		rightPanel = new SidePanel(4, 10);
 		topPanel = new SidePanel(20, 1);

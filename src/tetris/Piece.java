@@ -1,5 +1,6 @@
 package tetris;
 
+import java.awt.Color;
 import java.util.Random;
 
 public class Piece {
@@ -28,7 +29,23 @@ public class Piece {
 
 		setPiece(tetrominoes[index]);
 	}
-
+	
+	public void moveLeft() {
+		this.col -= 1;
+	}
+	
+	public void moveRight() {
+		this.col += 1;
+	}
+	
+	public void moveDown() {
+		this.row += 1;
+	}
+	
+	public void hardDrop() {
+		// Dropping the piece down all the way to the bottom of
+	}
+	
 	// Return a shape of the given shape rotated anti-clockwise 90 degrees.
 	// Rotation transformation matrix for when theta is 90
 	// |cos 90 -sin 90|
@@ -71,6 +88,10 @@ public class Piece {
 			shape[i][1] = yValue;
 		}
 
+	}
+	
+	Color getColor() {
+		return this.tetrisPiece.color;
 	}
 
 	void printShapeToConsole() {

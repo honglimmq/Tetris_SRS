@@ -9,7 +9,7 @@ public enum Tetromino {
 	O(new int[][] { { -1, 1 }, { 0, 1 }, { -1, 0 }, { 0, 0 } }, Color.YELLOW),
 	S(new int[][] { { 0, 1 }, { 1, 1 }, { -1, 0 }, { 0, 0 } }, Color.GREEN),
 	Z(new int[][] { { -1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 } }, Color.RED),
-	T(new int[][] { { 0, 1 }, { -1, 0 }, { 0, 0 }, { 1, 0 } }, new Color(123, 50, 250));
+	T(new int[][] { { 0, 1 }, { -1, 0 }, { 0, 0 }, { 1, 0 } }, new Color(123, 50, 250)); //purple
 	
 	public final int[][] initialForm; 
 	public final Color color;
