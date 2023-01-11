@@ -22,8 +22,11 @@ public class TetrisBoard {
 		
 	}
 
+	// Check whether the given piece can be move down a column. 
+	// Return false if the given piece can not legally be move down a column on the board.
+	// Return true if possible and legal 			
 	public boolean canMoveDown(Piece piece) {
-		// Check whether the piece can move down a row
+		
 
 		// Check if out of bound
 		for (int i = 0; i < piece.shape.length; i++) {
@@ -68,7 +71,7 @@ public class TetrisBoard {
 			int xPosition = -1 * piece.shape[i][1] + piece.col;
 			int yPosition = piece.shape[i][0] + piece.row;
 
-			if (xPosition < 0 && xPosition >= this.nCols && yPosition < 0 && yPosition >= this.nRows) {
+			if (xPosition < 0 && xPosition >= TetrisBoard.nCols && yPosition < 0 && yPosition >= TetrisBoard.nRows) {
 				return false;
 			}
 		}
@@ -83,7 +86,7 @@ public class TetrisBoard {
 			int xPosition = piece.shape[i][1];
 			int yPosition = -1 * piece.shape[i][0];
 			
-			if (xPosition < 0 && xPosition >= this.nCols && yPosition < 0 && yPosition >= this.nRows) {
+			if (xPosition < 0 && xPosition >= TetrisBoard.nCols && yPosition < 0 && yPosition >= TetrisBoard.nRows) {
 				return false;
 			}
 		}
