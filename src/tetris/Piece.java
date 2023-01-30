@@ -4,90 +4,75 @@ import java.awt.Color;
 import java.util.Random;
 
 public class Piece {
+	// This is 
 	protected Tetromino tetrisPiece;
-	protected int[][] shape;
-	// protected int[] boardLocation;
-	protected int row;
-	protected int col;
+	
+	// This is a 2D int array that store the form of the Piece.
+	protected Block[] shape;
+	
+	// Piece keeps track of its pivot coordinate relative to the tetris board, where 
+	// 'pivotRow' is the pivot's row position and, 
+	// 'pivotCol' is the pivot's column position
+	protected int pivotRow;
+	protected int pivotCol;	
+	
+	// A piece has 4 rotation state where:
+	// '0' is the spawn state, 
+	// '1' state resulting from a clockwise ("right") rotation  from spawn, 
+	// '2' state resulting from a anti-clockwise ("left") rotation from spawn and, 
+	// '3' is the last rotation state before cycling back to the spawn state.
+	protected int rotationState; 
 
 	public Piece() {
-		this.shape = new int[4][2];
-		this.setRandomPiece();
-		this.row = 0;
-		this.col = 0;
+		//this.setRandomPiece();
+		this.setPiece(Tetromino.J); //#tbr
+		this.pivotRow = 0;
+		this.pivotCol = 0;
 	}
 
 	private void setPiece(Tetromino tetromino) {
 		this.tetrisPiece = tetromino;
-		System.arraycopy(tetromino.initialForm, 0, this.shape, 0, tetromino.initialForm.length);
+		this.shape = tetromino.getSpawnForm();
+		this.rotationState = 0; 
 	}
 
 	public void setRandomPiece() {
 		// Get an array of all the Tetromino constants. Then select a random Tetromino
 		Tetromino[] tetrominoes = Tetromino.values();
 		int index = new Random().nextInt(tetrominoes.length);
-
 		setPiece(tetrominoes[index]);
 	}
 	
+	
 	public void moveLeft() {
-		this.col -= 1;
+		this.pivotCol -= 1;
 	}
 	
 	public void moveRight() {
-		this.col += 1;
+		this.pivotCol += 1;
 	}
 	
 	public void moveDown() {
-		this.row += 1;
+		this.pivotRow += 1;
 	}
 	
 	public void hardDrop() {
 		// Dropping the piece down all the way to the bottom of
 	}
 	
-	// Return a shape of the given shape rotated anti-clockwise 90 degrees.
-	// Rotation transformation matrix for when theta is 90
-	// |cos 90 -sin 90|
-	// |sin 90 cos 90|
-	// therefore, x' = -y and y' = x
-	/**
-	 * @pre rotate the current piece
-	 */
-	void rotateLeft() {
-		// Do not rotate for O tetromino piece.
-		if (tetrisPiece == Tetromino.O) {
-			return;
-		}
 
-		// Rotate the piece around its pivot square
-		for (int i = 0; i < shape.length; i++) {
-			// The matrix transformation equation for rotating left where x' = -y and y' = x
-			int xValue = -1 * shape[i][1];
-			int yValue = shape[i][0];
-
-			shape[i][0] = xValue;
-			shape[i][1] = yValue;
-		}
+	void rotateRight() {
+		rotate(true, true);
 	}
 
-	// Return a shape of the given shape rotated clockwise 90 degrees.
-	// x' = y and y' = -x
-	void rotateRight() {
-		// Shouldn't need to rotate O tetromino pieces.
-		if (tetrisPiece == Tetromino.O) {
-			return;
-		}
+
+	void rotateLeft() {
+		rotate(false, true);
+	}
+	
+	void rotate(boolean clockwise, boolean offset) {		
 		
-		for (int i = 0; i < shape.length; i++) {
-			// The matrix transformation equation for rotating a 2D piece 90 degree where x' = y and y' = -x
-			int xValue = shape[i][1];
-			int yValue = -1 * shape[i][0];
-
-			shape[i][0] = xValue;
-			shape[i][1] = yValue;
-		}
-
+		
 	}
 	
 	Color getColor() {
@@ -96,16 +81,6 @@ public class Piece {
 
 	void printShapeToConsole() {
 		System.out.println("Printing " + tetrisPiece);
-		for (int i = 0; i < shape.length; i++) {
-			System.out.print("{");
-			for (int k = 0; k < shape[i].length; k++) {
-				System.out.print(shape[i][k]);
-				if (k == shape[i].length - 1) {
-					System.out.println("}");
-				} else {
-					System.out.print(" ,");
-				}
-			}
-		}
 	}
+
 }

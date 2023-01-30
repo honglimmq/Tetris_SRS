@@ -22,14 +22,14 @@ public class TetrisBoard extends JPanel {
 	final int nRows = 20;
 	final int nCols = 10;
 	final int sizeBox = 30;
-	final Color empty = Color.WHITE;
+	final Color emptyCellColour = Color.WHITE;
 	Color[][] isOccupied;
 
 	BufferedImage backgroundImage = null;
 	boolean running = false;
 	Timer gameTimer;
 
-	private final int FPS = 1; // set frame rate to 10 FPS
+	private final int FPS = 10; // set frame rate to 10 FPS
 	private final int frameDelay = 1000 / FPS;
 	private BufferedImage backBuffer;
 	private Graphics2D g2d;
@@ -78,82 +78,22 @@ public class TetrisBoard extends JPanel {
 		gameTimer.start();
 		// Create a new falling piece and align it's column to the middle of the board
 		this.fallingPiece = new Piece();
-		fallingPiece.col = nCols / 2 - 1;
+		fallingPiece.pivotCol = nCols / 2 - 1;
 	}
 
 	public void addPiece() {
 	}
 
-	// Check whether the given piece can be move down a column.
-	// Return false if the given piece can not legally be move down a column on the
-	// board.
-	// Return true if possible and legal
-	public boolean canMoveDown(Piece piece) {
-		// Check if out of bound
-		for (int i = 0; i < piece.shape.length; i++) {
-			if (piece.row + piece.shape[i][0] + 1 > nRows - 1) {
-				return false;
-			}
+	public boolean tryMove(Piece piece, int newX, int newY) {
+		int xPosition = 0, yPosition = 0;
+
+		if (xPosition < 0 || xPosition > this.nCols || yPosition < 0 || yPosition > this.nRows) {
+			System.out.println("canRotateRight: false");
+			return false;
 		}
 		return true;
 	}
-
-	public boolean canMoveLeft(Piece piece) {
-		// Check whether the piece can move left a column
-
-		// Check if out of bound
-		for (int i = 0; i < piece.shape.length; i++) {
-			if (piece.col + piece.shape[i][1] <=  0) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public boolean canMoveRight(Piece piece) {
-		// Check whether the piece can move right a column
-
-		// Check if out of bound
-		for (int i = 0; i < piece.shape.length; i++) {
-			if (piece.col + piece.shape[i][1] + 1 >= nCols) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public boolean canRotateLeft(Piece piece) {
-		// Check whether the piece can rotate to 90 degree anti-clockwise
-
-		for (int i = 0; i < piece.shape.length; i++) {
-			int xPosition = -1 * piece.shape[i][1] + piece.col;
-			int yPosition = piece.shape[i][0] + piece.row;
-
-			if (xPosition < 0 && xPosition >= this.nCols && yPosition < 0 && yPosition > this.nRows) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public boolean canRotateRight(Piece piece) {
-		// Check whether the piece can rotate to 90 degree clockwise
-
-		for (int i = 0; i < piece.shape.length; i++) {
-			int xPosition = piece.col + piece.shape[i][1];
-			int yPosition = piece.row - 1 * piece.shape[i][0];
-
-			if (xPosition < 0 && xPosition > this.nCols && yPosition < 0 && yPosition > this.nRows) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
+	
 	public int boardWidth() {
 		return this.nCols * this.sizeBox;
 	}
@@ -201,15 +141,22 @@ public class TetrisBoard extends JPanel {
 	}
 
 	private void drawCurrentPiece(Graphics2D g2d) {
-		int[][] shapeToDisplay = this.fallingPiece.shape;
 
 		g2d.setColor(this.fallingPiece.getColor());
 		for (int i = 0; i < this.fallingPiece.shape.length; i++) {
-			g2d.fill3DRect((this.fallingPiece.col + shapeToDisplay[i][1]) * sizeBox,
-					(this.fallingPiece.row + shapeToDisplay[i][0]) * sizeBox, sizeBox, sizeBox, true);
+			if(i == 0) {
+				g2d.setColor(Color.ORANGE);
+			}else {
+				g2d.setColor(this.fallingPiece.getColor());
+			}
+			int x = fallingPiece.pivotCol + fallingPiece.shape[i].x;
+			int y = fallingPiece.pivotRow + fallingPiece.shape[i].y;
+
+			g2d.fill3DRect(x * sizeBox, y * sizeBox, sizeBox, sizeBox, true);
 		}
 
 	}
+	
 
 	private class MyKeyAdapter extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
@@ -218,31 +165,16 @@ public class TetrisBoard extends JPanel {
 
 			if (key == KeyEvent.VK_LEFT) {
 				// move left
-				if (canMoveLeft(fallingPiece)) {
-					fallingPiece.moveLeft();
-					repaint();
-				}
 			}
 			if (key == KeyEvent.VK_RIGHT) {
 				// move right
-				if (canMoveRight(fallingPiece)) {
-					fallingPiece.moveRight();
-					repaint();
-				}
 			}
 			if (key == KeyEvent.VK_UP) {
-				// rotate right
-				if (canRotateRight(fallingPiece)) {
-					fallingPiece.rotateRight();
-					repaint();
-				}
+				// rotate right/clockwise
 			}
 			if (key == KeyEvent.VK_DOWN) {
+				
 				// move down
-				if (canMoveDown(fallingPiece)) {
-					fallingPiece.moveDown();
-					repaint();
-				}
 			}
 		}
 
@@ -253,12 +185,11 @@ public class TetrisBoard extends JPanel {
 
 	private class GameTimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			// perform actions on timer tick
-			if (canMoveDown(fallingPiece)) {
-				fallingPiece.moveDown();
-				repaint();
-			}
-			
+			/*
+			 * // perform actions on timer tick if (canMoveDown(fallingPiece)) {
+			 * fallingPiece.moveDown(); repaint(); }
+			 */
+			repaint();
 		}
 	}
 
