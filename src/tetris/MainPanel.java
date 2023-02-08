@@ -11,10 +11,13 @@ public class MainPanel extends JPanel{
 	JPanel leftPanel;
 	JPanel rightPanel;
 	JPanel topPanel;
+	TetrisGame tetrisGame;
 	
 	
 	MainPanel(){
-		playingGrid = new TetrisBoard();
+		tetrisGame = new TetrisGame();
+		playingGrid = tetrisGame.gameUI;
+		//playingGrid = new TetrisBoard2();
 		leftPanel = new SidePanel(4, 4);
 		rightPanel = new SidePanel(4, 10);
 		topPanel = new SidePanel(20, 1);
@@ -27,5 +30,9 @@ public class MainPanel extends JPanel{
 		this.add(topPanel, BorderLayout.NORTH);
 		this.add(leftPanel, BorderLayout.WEST);
 		this.add(playingGrid, BorderLayout.CENTER);
+	}
+	
+	public void startGame() {
+		tetrisGame.startGame();
 	}
 }

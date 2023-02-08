@@ -11,9 +11,10 @@ public class Main extends JFrame {
 		this.setResizable(false);
 		add(mpanel);
 		pack();
+		mpanel.startGame();
 	}
 
-	public static void main(String[] a) {
+	public static void main(String[] args) {
 		new Main().setVisible(true);
 	}
 }
