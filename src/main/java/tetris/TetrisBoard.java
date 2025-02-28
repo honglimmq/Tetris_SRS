@@ -21,24 +21,30 @@ public class TetrisBoard {
         }
     }
 
-    // Check for filled rows and clearing them
-    void clearLines() {
-        boolean hasFullRow = false;
 
-        // mark rows to be cleared
-        for (int row = 0; row < this.nRows; row++) {
-            if(isRowFull(row)){
-                hasFullRow = true;
-                for(int col = 0; col < nCols; col++) {
-                    isOccupied[row][col] = Color.lightGray;
+    void clearLines() {
+        // check full rows from bottom to top
+        for (int row = nRows - 1; row >= 0; row--) {
+            if (isRowFull(row)) {
+                // clear this row by shifting all rows above it down by one
+                for (int r = row; r > 0; r--) {
+                    // copy the row above to the current row
+                    System.arraycopy(isOccupied[r - 1], 0, isOccupied[r], 0, nCols);
                 }
+
+                // clear the top row
+                for (int col = 0; col < nCols; col++) {
+                    isOccupied[0][col] = emptyCellColor;
+                }
+
+                // since board have shifted rows down, need to recheck the current row
+                row++;
             }
         }
-
-        if (!hasFullRow) return;
     }
 
 
+    // Returns true if the given row is full (i.e. no empty cells)
     private boolean isRowFull(int row){
         for(int i = 0; i < nCols; i++){
             if(getColorAt(row, i).equals(this.emptyCellColor)) {
@@ -52,7 +58,6 @@ public class TetrisBoard {
         for (int i = 0; i < piece.shape.length; i++) {
             int col = piece.pivotCol + piece.shape[i].x;
             int row = piece.pivotRow + piece.shape[i].y;
-
             isOccupied[row][col] = piece.getColor();
         }
     }

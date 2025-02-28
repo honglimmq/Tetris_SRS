@@ -98,7 +98,6 @@ public class TetrisGame {
         // Lock piece in place
         board.placePiece(currentPiece);
 
-
         board.clearLines();
         // Spawn a new piece
         currentPiece = new Piece();
@@ -107,6 +106,9 @@ public class TetrisGame {
 
         return true;
     }
+
+
+
 
     public boolean tryMove(int deltaX, int deltaY) {
 
@@ -166,9 +168,10 @@ public class TetrisGame {
                 return rotatePiece(true, true);
             case HardDrop:
 				return hardDrop();
+            default:
+                return false;
 
         }
-        return false;
     }
 
     
@@ -182,7 +185,6 @@ public class TetrisGame {
                 currentPiece.setPivotCol(board.nCols / 2 - 1);
                 gameUI.updateCurrentPiece(currentPiece);
             }
-
             gameUI.repaint();
         }
     }
