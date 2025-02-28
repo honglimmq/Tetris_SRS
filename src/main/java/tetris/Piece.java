@@ -47,7 +47,7 @@ public class Piece {
 
 	// O Tetromino Offset Data
 	final static Block[][] oOffset = new Block[][] {
-			{ new Block(0, 0), new Block(0, -1), new Block(-1, -1), new Block(-1, 0) } };
+			{ new Block(0, 0), new Block(0, 1), new Block(-1, 1), new Block(-1, 0) } };
 
 	public Piece() {
 		this.setRandomPiece();
