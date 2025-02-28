@@ -26,10 +26,9 @@ public class TetrisGame {
 
 
     TetrisGame() {
-
+        //
         board = new TetrisBoard();
         currentPiece = new Piece();
-
 
         // Import background image
         BufferedImage backgroundImage = null;
@@ -61,11 +60,10 @@ public class TetrisGame {
 
     public boolean rotatePiece(boolean isClockwise, boolean shouldOffset) {
         int oldRotationState = currentPiece.getRotationState();
-
-        // Rotate Piece
         currentPiece.rotate(isClockwise);
         int newRotationState = currentPiece.getRotationState();
-        if (!canOffset(oldRotationState, currentPiece.rotationState)) {
+
+        if (!canOffset(oldRotationState, newRotationState)) {
             rotatePiece(!isClockwise, false);
             return false;
         }
@@ -86,8 +84,8 @@ public class TetrisGame {
                     && board.getColorAt(row + distance + 1, col) == board.emptyCellColor) {
                 distance++;
             }
-            dropDistance = Math.min(dropDistance, distance);
 
+            dropDistance = Math.min(dropDistance, distance);
         }
         return dropDistance;
     }
@@ -100,6 +98,8 @@ public class TetrisGame {
         // Lock piece in place
         board.placePiece(currentPiece);
 
+
+        board.clearLines();
         // Spawn a new piece
         currentPiece = new Piece();
         currentPiece.setPivotCol(board.nCols / 2 - 1);
@@ -171,15 +171,18 @@ public class TetrisGame {
         return false;
     }
 
+    
 
     private class GameTimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (!move(GameAction.MoveDown)) {
                 board.placePiece(currentPiece);
+                board.clearLines();
                 currentPiece = new Piece();
                 currentPiece.setPivotCol(board.nCols / 2 - 1);
                 gameUI.updateCurrentPiece(currentPiece);
             }
+
             gameUI.repaint();
         }
     }
