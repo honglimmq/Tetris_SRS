@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
-
+// manages game logic and piece movement
 public class TetrisGame {
 	TetrisBoard board;
 	TetrisUI gameUI;

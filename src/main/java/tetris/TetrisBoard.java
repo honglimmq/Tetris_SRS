@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.Color;
 
+// Handles grid state
 public class TetrisBoard {
 	final int nRows = 20;
 	final int nCols = 10;
