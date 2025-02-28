@@ -22,8 +22,14 @@ public enum Tetromino {
 		this.initialForm = initialForm;
 		this.color = color;
 	}
-	
+
+
+	// returns a deep copy version of an initial Tetromino piece.
 	public Block[] getSpawnForm() {
-		return this.initialForm;
+		Block[] copy = new Block[initialForm.length];
+		for(int i = 0; i < initialForm.length; i++){
+			copy[i] = new Block(this.initialForm[i].x, this.initialForm[i].y);
+		}
+		return copy;
 	}
 }	
