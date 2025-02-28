@@ -53,11 +53,15 @@ public class Piece {
 		this.setRandomPiece();
 		this.pivotRow = 0;
 		this.pivotCol = 0;
+
+		this.rotationState = 0;
 	}
 
-	private void setPiece(Tetromino tetromino) {
-		this.tetrisPiece = tetromino;
-		this.shape = tetromino.getSpawnForm();
+	public Piece(Piece type){
+		this.tetrisPiece = type.tetrisPiece;
+		this.pivotRow = 0;
+		this.pivotCol = 0;
+		this.shape = this.tetrisPiece.getSpawnForm();
 		this.rotationState = 0;
 	}
 
@@ -65,23 +69,18 @@ public class Piece {
 		// Get an array of all the Tetromino constants. Then select a random Tetromino
 		Tetromino[] tetrominoes = Tetromino.values();
 		int index = new Random().nextInt(tetrominoes.length);
-		setPiece(tetrominoes[index]);
+		this.tetrisPiece = tetrominoes[index];
+		this.shape = this.tetrisPiece.getSpawnForm();
 	}
+
 
 	void movePiece(int deltaX, int deltaY) {
 		this.pivotCol += deltaX;
 		this.pivotRow += deltaY;
-		System.out.println("Moving by " + deltaX + " and " + deltaY);
-		System.out.printf("");
-	}
-
-	public void hardDrop() {
-		// Dropping the piece down all the way to the bottom of
 	}
 
 	void rotate(boolean isClockwise) {
 		setRotationState(this.rotationState+= isClockwise ? 1 : -1);
-		
 		for(int i = 0; i < shape.length; i++) {
 			shape[i].rotate(isClockwise);
 		}

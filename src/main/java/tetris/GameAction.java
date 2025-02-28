@@ -5,5 +5,6 @@ public enum GameAction {
 	MoveRight,
 	MoveDown,
 	RotateLeft,
-	RotateRight;
+	RotateRight,
+	HardDrop;
 }

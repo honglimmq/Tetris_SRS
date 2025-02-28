@@ -108,7 +108,6 @@ public class TetrisUI extends JPanel {
 				if(board.getColorAt(i, k) != Color.WHITE) {
 					
 					g2d.setColor(board.getColorAt(i, k));
-					
 					g2d.fill3DRect(k * board.sizeBox, i * board.sizeBox, board.sizeBox, board.sizeBox, true);
 				}
 			}
@@ -150,6 +149,11 @@ public class TetrisUI extends JPanel {
 				tetrisGame.move(GameAction.MoveDown);
 				repaint();
 				// move down
+			}
+
+			if (key == KeyEvent.VK_SPACE) {
+				tetrisGame.move(GameAction.HardDrop);
+				repaint();
 			}
 		}
 
