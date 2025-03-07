@@ -20,15 +20,15 @@ public class Bag {
             return null;
         }
 
-        return bag.getFirst();
+        return bag.get(0);
     }
 
     Tetromino getNextPiece() {
         if(bag.isEmpty()){
             this.resetBag();
         }
-        Tetromino next = bag.getFirst();
-        bag.removeFirst();
+        Tetromino next = bag.get(0);
+        bag.remove(0);
 
         return next;
     }
