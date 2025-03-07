@@ -15,6 +15,7 @@ public class TetrisGame {
     TetrisBoard board;
     TetrisUI gameUI;
     Piece currentPiece;
+    PieceSequence pieceSequence;
 
     Timer gameTimer;
 
@@ -29,6 +30,7 @@ public class TetrisGame {
         //
         board = new TetrisBoard();
         currentPiece = new Piece();
+        pieceSequence = new PieceSequence();
 
         // Import background image
         BufferedImage backgroundImage = null;
@@ -79,7 +81,7 @@ public class TetrisGame {
             int row = currentPiece.pivotRow + block.y;
             int distance = 0;
 
-            // the number of cells below until it would collide with an occupied cell or the bottom of the board
+            // check the number of cells below until it would collide with an occupied cell or the bottom of the board
             while (row + distance + 1 < board.nRows
                     && board.getColorAt(row + distance + 1, col) == board.emptyCellColor) {
                 distance++;
@@ -91,18 +93,19 @@ public class TetrisGame {
     }
 
     public boolean hardDrop() {
-        // Calculate then instantly move to final position
+        // calculate then instantly move to final position
         int dropDistance = calculateDropDistance();
         currentPiece.pivotRow += dropDistance;
 
-        // Lock piece in place
+        // lock piece in place
         board.placePiece(currentPiece);
 
         board.clearLines();
-        // Spawn a new piece
+        // spawn a new piece
         currentPiece = new Piece();
         currentPiece.setPivotCol(board.nCols / 2 - 1);
         gameUI.updateCurrentPiece(currentPiece);
+        gameUI.updateUI();
 
         return true;
     }
@@ -116,7 +119,7 @@ public class TetrisGame {
             int newXPos = currentPiece.pivotCol + currentPiece.shape[i].x + deltaX;
             int newYPos = currentPiece.pivotRow + currentPiece.shape[i].y + deltaY;
 
-            // Check boundaries and if a cell is already occupied
+            // check boundaries and if a cell is already occupied
             if (newXPos < 0 || newXPos >= board.nCols || newYPos >= board.nRows || newYPos < 0 || board.getColorAt(newYPos, newXPos) != board.emptyCellColor) {
                 return false;
             }
@@ -130,7 +133,7 @@ public class TetrisGame {
     public boolean canOffset(int oldRotationIdx, int newRotationIdx) {
         Block[][] offsetData;
 
-        // Get the corresponding offset data
+        // get the corresponding offset data
         if (currentPiece.tetrisPiece == Tetromino.O) {
             offsetData = Piece.oOffset;
         } else if (currentPiece.tetrisPiece == Tetromino.I) {
