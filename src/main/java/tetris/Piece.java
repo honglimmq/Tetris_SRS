@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Random;
 
 public class Piece {
-	// This is
+	// This is current playing piece
 	protected Tetromino tetrisPiece;
 
 	// This is a 2D int array that store the form of the Piece.
@@ -65,6 +65,8 @@ public class Piece {
 		this.rotationState = 0;
 	}
 
+
+	// TODO: Next to change this to use piece sequence
 	public void setRandomPiece() {
 		// Get an array of all the Tetromino constants. Then select a random Tetromino
 		Tetromino[] tetrominoes = Tetromino.values();
