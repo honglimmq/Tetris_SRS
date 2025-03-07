@@ -25,3 +25,6 @@ build
 
 # Ignore logs and temporary files
 *.log
+
+# Ignore file editor
+pico.save
