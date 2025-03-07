@@ -8,6 +8,7 @@ public class PieceSequence {
     final private int nPieces = 5; // number of preview pieces
     private Bag bag; // 7-randomiser bag
 
+
     PieceSequence() {
         this.sequence = new ArrayList<Tetromino>(nPieces);
         this.bag = new Bag();
@@ -26,7 +27,7 @@ public class PieceSequence {
             fillNextSequence();
         }
 
-        return sequence.removeFirst();
+        return sequence.remove(0);
     }
 
     // retrieve a deep copy of the list of upcomingPieces
@@ -45,6 +46,6 @@ public class PieceSequence {
             return sequence.get(position);
         }
 
-        return sequence.getFirst();
+        return sequence.get(0);
     }
 }
